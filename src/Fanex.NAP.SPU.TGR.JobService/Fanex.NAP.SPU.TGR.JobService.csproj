@@ -44,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Fanex.NAP.SPU.VR\Fanex.NAP.SPU.TGR.csproj" />
+    <ProjectReference Include="..\Fanex.NAP.SPU.TGR\Fanex.NAP.SPU.TGR.csproj" />
   </ItemGroup>
 
 </Project>

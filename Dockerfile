@@ -2,17 +2,17 @@ FROM registry.nexdev.net:5050/docker/dotnet/core/sdk:5.0.102-ca-patch-buster-sli
 
 WORKDIR /src
 
-COPY ["./src/Fanex.NAP.SPU.VR", "Fanex.NAP.SPU.VR/"]
+COPY ["./src/Fanex.NAP.SPU.TGR", "Fanex.NAP.SPU.TGR/"]
 
-COPY ["./src/Fanex.NAP.SPU.VR.JobService/Fanex.NAP.SPU.VR.JobService.csproj", "Fanex.NAP.SPU.VR.JobService/"]
+COPY ["./src/Fanex.NAP.SPU.TGR.JobService/Fanex.NAP.SPU.TGR.JobService.csproj", "Fanex.NAP.SPU.TGR.JobService/"]
 
-WORKDIR "/src/Fanex.NAP.SPU.VR.JobService"
+WORKDIR "/src/Fanex.NAP.SPU.TGR.JobService"
 
 RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
 
 RUN dotnet restore -v n
 
-COPY ./src/Fanex.NAP.SPU.VR.JobService .
+COPY ./src/Fanex.NAP.SPU.TGR.JobService .
 
 RUN dotnet publish -r linux-x64 --self-contained false -o /app
 
@@ -27,4 +27,4 @@ RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/g' /usr/lib/ssl/openssl.
 
 COPY --from=builder /app .
 
-ENTRYPOINT ["dotnet", "Fanex.NAP.SPU.VR.JobService.dll"]
+ENTRYPOINT ["dotnet", "Fanex.NAP.SPU.TGR.JobService.dll"]

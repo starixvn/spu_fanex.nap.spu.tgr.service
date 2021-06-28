@@ -1,4 +1,4 @@
 include:
-  - project: "ci/repos-ci/spu_nap_spu_vr_job_service"
+  - project: "ci/repos-ci/spu_nap_spu_tgr_job_service"
     ref: master
     file: "gitlab-ci.yml"
