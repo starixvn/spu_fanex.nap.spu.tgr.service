@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Functions>
+	<Function Name="BetLimit">
+		<Setting Key="Task_BetLimit_CheckCustPerformance" SpName="Task_BetLimit_CheckCustPerformance" DbName="DBDW.bodb_dwrs.bodbAdminNet" TimeOut="300" />
+
+		<Setting Key="NAP_BLControl_GetPerformanceCheckList" SpName="NAP_BLControl_GetPerformanceCheckList_UAT1" DbName="DBCust.CustDB.bodbAdminNet" TimeOut="300" />
+		<Setting Key="NAP_BLControl_PerformanceChecking_ReduceBetLimit" SpName="NAP_BLControl_PerformanceChecking_ReduceBetLimit_UAT1" DbName="DBCust.CustDB.bodbAdminNet" TimeOut="300" />
+		<Setting Key="NAP_BLControl_PerformanceChecking_RemoveBetLimit" SpName="NAP_BLControl_PerformanceChecking_RemoveBetLimit_UAT1" DbName="DBCust.CustDB.bodbAdminNet" TimeOut="300" />
+	</Function>
+
+	<Function Name="BasketballVirtualSetting">
+		<Setting Key="Acc_VR_GetAdjustmentCustomerList" SpName="Acc_VR_GetAdjustmentCustomerList" DbName="DBCust.CustDB.bodbAdminNet" TimeOut="300" />
+		<Setting Key="Acc_VR_CustomerUpdFollowParent" SpName="Acc_VR_CustomerUpdFollowParent_xtest" DbName="DBCust.CustDB.bodbAdminNet" TimeOut="300" />
+		<Setting Key="Acc_VR_CustomerUpdAutoAdjustmentStatus" SpName="Acc_VR_CustomerUpdAutoAdjustmentStatus" DbName="DBCust.CustDB.bodbAdminNet" TimeOut="300" />
+		<Setting Key="Task_VRSetting_CheckAllSportsCustPerformance" SpName="Task_VRSetting_CheckAllSportsCustPerformance" DbName="DBDW.bodb_dwrs.bodbAdminNet" TimeOut="300" />
+	</Function>
+	
+</Functions>
