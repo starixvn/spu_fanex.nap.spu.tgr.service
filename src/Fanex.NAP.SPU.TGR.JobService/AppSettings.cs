@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.ComponentModel;
-
-namespace Fanex.NAP.SPU.TGR.JobService
+﻿namespace Fanex.NAP.SPU.TGR.JobService
 {
+    using Microsoft.Extensions.Configuration;
+    using System;
+    using System.ComponentModel;
+
     public interface IAppSettings
     {
         int Environment { get; }
@@ -13,6 +13,14 @@ namespace Fanex.NAP.SPU.TGR.JobService
         int PunterChunkSize { get; }
 
         string SPName { get; }
+
+        string AutoTradingLetstalkTarget { get; }
+
+        string AutoTradingLetstalkGroups { get; }        
+
+        string AutoTradingFilePassword { get; }
+
+        string TGRSAPIBaseAddress { get; }
     }
     public class AppSettings : IAppSettings
     {
@@ -23,6 +31,14 @@ namespace Fanex.NAP.SPU.TGR.JobService
         private readonly int punterChunkSize;
 
         private readonly string spName;
+
+        private readonly string tgrsAPIBaseAddress;
+
+        private readonly string autoTradingLetstalkTarget;
+
+        private readonly string autoTradingLetstalkGroups;        
+
+        private readonly string autoTradingFilePassword;
 
         public AppSettings(IConfiguration configuration)
         {
@@ -62,6 +78,14 @@ namespace Fanex.NAP.SPU.TGR.JobService
         public string SPName => spName;
 
         public int PunterChunkSize => punterChunkSize;
+
+        public string TGRSAPIBaseAddress => tgrsAPIBaseAddress;
+
+        public string AutoTradingLetstalkTarget => autoTradingLetstalkTarget;
+
+        public string AutoTradingLetstalkGroups => autoTradingLetstalkGroups;
+
+        public string AutoTradingFilePassword => autoTradingFilePassword;               
 
         public T GetValue<T>(string key)
         {

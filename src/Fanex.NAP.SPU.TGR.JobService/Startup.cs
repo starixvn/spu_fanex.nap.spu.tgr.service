@@ -1,22 +1,22 @@
-using Fanex.Data;
-using Fanex.Data.MySql;
-using Fanex.Data.SqlServer;
-using Fanex.NAP.SPU.TGR.JobService;
-using Fanex.NAP.SPU.VR.JobService;
-using Fanex.NAP.SPU.VR.JobService.Services;
-using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-using System.IO;
-using System.Linq;
-
 namespace Fanex.NAP.SPU.DCS.JobService
 {
+    using Fanex.Data;
+    using Fanex.Data.MySql;
+    using Fanex.Data.SqlServer;
+    using Fanex.NAP.SPU.TGR.JobService;
+    using Fanex.NAP.SPU.VR.JobService;
+    using Fanex.NAP.SPU.VR.JobService.Services;
+    using HealthChecks.UI.Client;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.OpenApi.Models;
+    using System.IO;
+    using System.Linq;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
