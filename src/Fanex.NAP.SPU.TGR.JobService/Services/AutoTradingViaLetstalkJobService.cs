@@ -119,8 +119,6 @@
             }
             catch (Exception ex)
             {
-                LogService.Error($"SendFileMessageViaLestalk failed", ex);
-
                 var logMessage = new LogMessage(ex.Message)
                   .AddSection("Data Info", DatabaseInfoGetters.GetDbExceptionInfo(ex))
                   .AddSection("Exception Info", CommonInfoGetters.GetExceptionInfo(ex)).ToString();
@@ -133,9 +131,7 @@
 
         private void NotifyMessage()
         {
-            //this.notifiedMessage = $"Auto special licensee job run COMPLETED." +
-            //     $"\n\r - OtherSports - Customers have passed Performance Check: {this.specialLicenseeService.PunterBasketballUpdated}" +
-            //     $"\n\r - Special SportBook - Customers have passed Performance Check: {this.specialLicenseeService.PunterSportsbookUpdated}";
+            this.notifiedMessage = "Auto Trading via letstalk job run COMPLETED.";
 
             var telegramService = new NotificationService();
             telegramService

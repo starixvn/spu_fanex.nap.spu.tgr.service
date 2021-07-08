@@ -13,49 +13,44 @@
 
     public interface IAutoTradingViaEmailJobService
     {
+        bool IsSuccessAPIResponse { get; set; }
+
         Task<bool> Execute();
+
+        Mail GenerateMail(string saveFileName);
     }
 
     public class AutoTradingViaEmailJobService : IAutoTradingViaEmailJobService
     {
-        private const string Endpoint_EventLeaguesExcel = "AutoTrading/GetAutoTradingEventLeaguesExcel";
-        private readonly ISentryClient sentryClient;
+        private const string Endpoint_EventLeaguesExcel = "AutoTrading/GetAutoTradingEventLeaguesExcel";        
         private readonly IAppSettings appSettings;
         private readonly IAutoTradingService autoTradingService;
         private string notifiedMessage = string.Empty;
 
-        public AutoTradingViaEmailJobService(ISentryClient sentryClient, IAppSettings appSettings, IAutoTradingService autoTradingService)
+        public bool IsSuccessAPIResponse { get; set; }
+
+        public AutoTradingViaEmailJobService(IAppSettings appSettings, IAutoTradingService autoTradingService)
         {
-            this.sentryClient = sentryClient;
             this.appSettings = appSettings;
             this.autoTradingService = autoTradingService;
         }
 
         public Task<bool> Execute()
         {
-            try
-            {
-                var fromDate = "07-Nov-2019";
-                var toDate = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek).ToString("dd-MMM-yyyy");
-                var saveFileName = "Model TA Performance Event Details - " + fromDate + " to " + toDate + ".xlsx";
-                var directorySaveFile = AppDomain.CurrentDomain.BaseDirectory + @"Attachment\";
+            var fromDate = "07-Nov-2019";
+            var toDate = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek).ToString("dd-MMM-yyyy");
+            var saveFileName = "Model TA Performance Event Details - " + fromDate + " to " + toDate + ".xlsx";
+            var directorySaveFile = AppDomain.CurrentDomain.BaseDirectory + @"Attachment\";
 
-                this.autoTradingService.DirectorySaveFile = directorySaveFile;
-                this.autoTradingService.UrlAPI = this.appSettings.TGRSAPIBaseAddress;
+            this.autoTradingService.DirectorySaveFile = directorySaveFile;
+            this.autoTradingService.UrlAPI = this.appSettings.TGRSAPIBaseAddress;
 
-                this.autoTradingService.MoveFileToArcFolder();
-                this.autoTradingService.GenerateAutoTradingToFile(Endpoint_EventLeaguesExcel, saveFileName, FileType.Excel);
+            this.autoTradingService.MoveFileToArcFolder();
+            this.autoTradingService.GenerateAutoTradingToFile(Endpoint_EventLeaguesExcel, saveFileName, FileType.Excel);
 
-                this.GenerateMail(saveFileName);
+            IsSuccessAPIResponse = this.autoTradingService.IsSuccessAPIResponse;
 
-                this.NotifyMessage();
-            }
-            catch (Exception ex)
-            {
-                sentryClient.CaptureException(ex);
-
-                return Task.FromResult(false);                
-            }
+            this.NotifyMessage();
 
             return Task.FromResult(true);
         }
@@ -66,7 +61,7 @@
             {
                 var toDate = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek).ToString("dd/MMM/yyyy");
                 var subject = "Automail Report - Live Performance Report " + toDate;
-                var mailTemplatePath = AppDomain.CurrentDomain.BaseDirectory + @"MailTemplate\MailInformTemplate.cshtml";                
+                var mailTemplatePath = AppDomain.CurrentDomain.BaseDirectory + @"MailTemplate\AutoTrading\MailInformTemplate.cshtml";                
 
                 var body = Utilities.ReadTextFile(mailTemplatePath);
 
@@ -100,9 +95,7 @@
 
         private void NotifyMessage()
         {
-            //this.notifiedMessage = $"Auto special licensee job run COMPLETED." +
-            //     $"\n\r - OtherSports - Customers have passed Performance Check: {this.specialLicenseeService.PunterBasketballUpdated}" +
-            //     $"\n\r - Special SportBook - Customers have passed Performance Check: {this.specialLicenseeService.PunterSportsbookUpdated}";
+            this.notifiedMessage = $"Auto Trading via email job run COMPLETED.";              
 
             var telegramService = new NotificationService();
             telegramService

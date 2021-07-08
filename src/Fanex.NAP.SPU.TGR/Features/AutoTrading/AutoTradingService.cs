@@ -35,11 +35,7 @@
         public bool IsSuccessAPIResponse { get; set; }
         public string DirectorySaveFile { get; set; }
         public string UrlAPI { get; set; }
-        public string FilePassword { get; set; }
-
-        public AutoTradingService()
-        {
-        }
+        public string FilePassword { get; set; }      
 
         public void MoveFileToArcFolder()
         {
@@ -90,7 +86,8 @@
 
         public void GenerateAutoTradingToFile(string endpoint, string saveFileName, FileType fileType)
         {
-            var savePath = Path.Combine(this.DirectorySaveFile + saveFileName);
+            this.IsSuccessAPIResponse = false;
+            var savePath = Path.Combine(this.DirectorySaveFile + saveFileName);            
 
             try
             {
@@ -111,19 +108,15 @@
                             if (fileType == FileType.Excel)
                                 SaveExcel(bytes, savePath);
                             else
-                                SaveImage(bytes, savePath);                            
-                        }
-                        else
-                        {
-                            IsSuccessAPIResponse = false;
-                        }
+                                SaveImage(bytes, savePath);
+
+                            IsSuccessAPIResponse = true;
+                        }                       
                     }
                 }
             }
             catch (Exception ex)
             {
-                IsSuccessAPIResponse = false;
-
                 var logMessage = new LogMessage(ex.Message)
                   .AddSection("Data Info", DatabaseInfoGetters.GetDbExceptionInfo(ex))
                   .AddSection("Exception Info", CommonInfoGetters.GetExceptionInfo(ex)).ToString();

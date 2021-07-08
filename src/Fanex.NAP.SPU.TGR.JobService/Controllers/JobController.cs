@@ -11,25 +11,13 @@
     public class JobController : ControllerBase
     {
         private readonly ISentryClient sentryClient;
-        private readonly IAutoTradingViaEmailJobService autoTradingViaEmailJobService;
-        private readonly IAutoTradingViaLetstalkJobService autoTradingViaLetstalkJobService;             
+        private readonly IAutoTradingViaLetstalkJobService autoTradingViaLetstalkJobService;                 
 
         public JobController(ISentryClient sentryClient, 
-            IAutoTradingViaEmailJobService autoTradingViaEmailJobService,
             IAutoTradingViaLetstalkJobService autoTradingViaLetstalkJobService)
         {
             this.sentryClient = sentryClient;
-            this.autoTradingViaEmailJobService = autoTradingViaEmailJobService;
-            this.autoTradingViaLetstalkJobService = autoTradingViaLetstalkJobService;
-        }
-
-        [HttpPost("autotradingviaemail")]
-        public async Task<bool> AutoTradingViaEmail(string jobName)
-        {
-            sentryClient.CaptureMessage($"{jobName} is running at {DateTime.Now}");
-
-            return await this.autoTradingViaEmailJobService.Execute();
-
+            this.autoTradingViaLetstalkJobService = autoTradingViaLetstalkJobService;            
         }
 
         [HttpPost("autotradingvialetstalk")]
@@ -37,7 +25,7 @@
         {
             sentryClient.CaptureMessage($"{jobName} is running at {DateTime.Now}");
 
-            return await this.autoTradingViaEmailJobService.Execute();
+            return await this.autoTradingViaLetstalkJobService.Execute();
         }
 
         [HttpPost("WriteLog")]

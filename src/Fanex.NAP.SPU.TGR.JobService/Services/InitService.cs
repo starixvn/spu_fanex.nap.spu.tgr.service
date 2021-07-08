@@ -1,6 +1,7 @@
-﻿namespace Fanex.NAP.SPU.VR.JobService.Services
+﻿namespace Fanex.NAP.SPU.TGRS.JobService.Services
 {
     using Fanex.NAP.SPU.TGR.Features.AutoTrading;
+    using Fanex.NAP.SPU.TGR.JobService.Jobs;
     using Fanex.NAP.SPU.TGR.JobService.Services;
     using Fanex.NAP.SPU.TGR.Shares;
     using Microsoft.Extensions.DependencyInjection;
@@ -13,11 +14,11 @@
         }
 
         private static void RegisterAutoTradingService(this IServiceCollection services)
-        {
+        {            
             services.AddSingleton<ILetstalkNotify, LetstalkNotify>();
             services.AddSingleton<IAutoTradingService, AutoTradingService>();            
             services.AddSingleton<IAutoTradingViaLetstalkJobService, AutoTradingViaLetstalkJobService>();
-            services.AddSingleton<IAutoTradingViaEmailJobService, AutoTradingViaEmailJobService>();
+            services.AddSingleton<IAutoTradingViaEmailJobService, AutoTradingViaEmailJobService>();            
         }        
     }
 }

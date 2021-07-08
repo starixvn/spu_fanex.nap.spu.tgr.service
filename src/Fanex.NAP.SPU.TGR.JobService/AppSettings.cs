@@ -21,6 +21,8 @@
         string AutoTradingFilePassword { get; }
 
         string TGRSAPIBaseAddress { get; }
+
+        string SentryDsn { get;  }
     }
     public class AppSettings : IAppSettings
     {
@@ -40,6 +42,8 @@
 
         private readonly string autoTradingFilePassword;
 
+        private readonly string sentryDsn;
+
         public AppSettings(IConfiguration configuration)
         {
             this.configuration = configuration;
@@ -49,6 +53,16 @@
             punterChunkSize = GetValue<int>(nameof(PunterChunkSize));
 
             spName = GetValue<string>(nameof(SPName));
+
+            tgrsAPIBaseAddress = GetValue<string>(nameof(TGRSAPIBaseAddress));
+
+            autoTradingLetstalkTarget = GetValue<string>(nameof(AutoTradingLetstalkTarget));
+
+            autoTradingLetstalkGroups = GetValue<string>(nameof(AutoTradingLetstalkGroups));
+
+            autoTradingFilePassword = GetValue<string>(nameof(AutoTradingFilePassword));
+
+            sentryDsn = GetValue<string>("Sentry:Dsn");
         }
 
         public int Environment
@@ -85,7 +99,9 @@
 
         public string AutoTradingLetstalkGroups => autoTradingLetstalkGroups;
 
-        public string AutoTradingFilePassword => autoTradingFilePassword;               
+        public string AutoTradingFilePassword => autoTradingFilePassword;
+
+        public string SentryDsn => sentryDsn;
 
         public T GetValue<T>(string key)
         {
@@ -109,5 +125,6 @@
 
             return schedulerSection.Get<T>();
         }
+
     }
 }

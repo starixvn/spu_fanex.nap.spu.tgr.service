@@ -42,11 +42,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MailTemplate\SpecialLicensee\" />
+    <Folder Include="MailTemplate\AutoTrading\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Fanex.NAP.SPU.TGR\Fanex.NAP.SPU.TGR.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="MailTemplate\AutoTrading\MailInformTemplate.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
