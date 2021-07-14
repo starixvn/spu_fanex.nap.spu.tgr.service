@@ -14,6 +14,8 @@
 
         string SPName { get; }
 
+        string LetstalkServiceApi { get; }
+
         string AutoTradingLetstalkTarget { get; }
 
         string AutoTradingLetstalkGroups { get; }        
@@ -36,6 +38,8 @@
 
         private readonly string tgrsAPIBaseAddress;
 
+        private readonly string letstalkServiceApi;
+
         private readonly string autoTradingLetstalkTarget;
 
         private readonly string autoTradingLetstalkGroups;        
@@ -53,6 +57,8 @@
             punterChunkSize = GetValue<int>(nameof(PunterChunkSize));
 
             spName = GetValue<string>(nameof(SPName));
+
+            letstalkServiceApi = GetValue<string>(nameof(LetstalkServiceApi));
 
             tgrsAPIBaseAddress = GetValue<string>(nameof(TGRSAPIBaseAddress));
 
@@ -92,6 +98,8 @@
         public string SPName => spName;
 
         public int PunterChunkSize => punterChunkSize;
+
+        public string LetstalkServiceApi => letstalkServiceApi;
 
         public string TGRSAPIBaseAddress => tgrsAPIBaseAddress;
 

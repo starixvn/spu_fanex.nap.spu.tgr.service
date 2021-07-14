@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Collections.Generic;
     using System.IO;
+    using LetstalkConfig = Fanex.LetstalkService.Core.Services.AppConfigService;
 
     public interface ILetstalkNotify
     {
@@ -28,10 +29,12 @@
             letstalkService = new LetstalkClientServiceImp();
         }
 
-        public LetstalkNotify(string targetName, string group, string pathAttachment)
+        public LetstalkNotify(string uriString, string targetName, string group, string pathAttachment)
         {
-            letstalkService = new LetstalkClientServiceImp();
+            LetstalkConfig.Config.LetstalkServiceApi = uriString;
 
+            letstalkService = new LetstalkClientServiceImp();
+            
             letstalkModel = new LetstalkModel();
             letstalkModel.LetstalkAttachments = GetAttachmentList(pathAttachment);
             letstalkModel.TargetName = targetName;

@@ -66,7 +66,11 @@
 
                 if (this.autoTradingService.IsSuccessAPIResponse)
                 {
-                    if (this.SendFileMessageViaLestalk(this.appSettings.AutoTradingLetstalkTarget, this.appSettings.AutoTradingLetstalkGroups, directorySaveImage))
+                    if (this.SendFileMessageViaLestalk(
+                        this.appSettings.LetstalkServiceApi,
+                        this.appSettings.AutoTradingLetstalkTarget, 
+                        this.appSettings.AutoTradingLetstalkGroups, 
+                        directorySaveImage))
                     {
                         LogService.Info($"SendFileMessageViaLestalk sucessfully - { DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss") }");
                     }
@@ -84,7 +88,7 @@
             return Task.FromResult(true);
         }
 
-        public bool SendFileMessageViaLestalk(string target, string group, string directorySaveImage)
+        public bool SendFileMessageViaLestalk(string uriString, string target, string group, string directorySaveImage)
         {
             try
             {
@@ -99,7 +103,7 @@
 
                     foreach (var groupName in arrGroupName)
                     {
-                        letstalkNotify = new LetstalkNotify(target, groupName, directorySaveImage);
+                        letstalkNotify = new LetstalkNotify(uriString, target, groupName, directorySaveImage);
 
                         if (!letstalkNotify.CheckExistFileAttach())
                         {

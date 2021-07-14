@@ -1,5 +1,6 @@
 ﻿namespace Fanex.NAP.SPU.TGRS.JobService.Services
 {
+    using Fanex.LetstalkService.Client;
     using Fanex.NAP.SPU.TGR.Features.AutoTrading;
     using Fanex.NAP.SPU.TGR.JobService.Jobs;
     using Fanex.NAP.SPU.TGR.JobService.Services;
@@ -15,6 +16,7 @@
 
         private static void RegisterAutoTradingService(this IServiceCollection services)
         {            
+            services.AddSingleton<LetstalkClientServiceImp, LetstalkClientServiceImp>();
             services.AddSingleton<ILetstalkNotify, LetstalkNotify>();
             services.AddSingleton<IAutoTradingService, AutoTradingService>();            
             services.AddSingleton<IAutoTradingViaLetstalkJobService, AutoTradingViaLetstalkJobService>();
