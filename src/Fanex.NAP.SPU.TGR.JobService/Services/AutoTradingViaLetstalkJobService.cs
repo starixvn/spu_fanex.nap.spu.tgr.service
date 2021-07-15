@@ -46,7 +46,7 @@
         {
             try
             {
-                var directorySaveImage = AppDomain.CurrentDomain.BaseDirectory + @"Attachment\";
+                var directorySaveImage = AppDomain.CurrentDomain.BaseDirectory + @"Attachment/";
                 if (!Directory.Exists(directorySaveImage))
                 {
                     Directory.CreateDirectory(directorySaveImage);
@@ -66,29 +66,37 @@
 
                 if (this.autoTradingService.IsSuccessAPIResponse)
                 {
-                    if (this.SendFileMessageViaLestalk(
+                    if (this.SendFileMessageViaLetstalk(
                         this.appSettings.LetstalkServiceApi,
                         this.appSettings.AutoTradingLetstalkTarget, 
                         this.appSettings.AutoTradingLetstalkGroups, 
                         directorySaveImage))
                     {
+                        this.notifiedMessage = "Auto Trading via letstalk job run COMPLETED.";
+
                         LogService.Info($"SendFileMessageViaLestalk sucessfully - { DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss") }");
                     }
+                    else
+                        this.notifiedMessage = "Auto Trading via letstalk job send files FAILED.";
                 }
-
-                NotifyMessage();
+                else
+                    this.notifiedMessage = "Auto Trading via letstalk job generate files FAILED.";
             }
             catch (Exception ex)
             {
                 sentryClient.CaptureException(ex);
 
+                this.notifiedMessage = "Auto Trading via letstalk job Execute FAILED.";
+
                 return Task.FromResult(false);
             }
+
+            NotifyMessage();
 
             return Task.FromResult(true);
         }
 
-        public bool SendFileMessageViaLestalk(string uriString, string target, string group, string directorySaveImage)
+        public bool SendFileMessageViaLetstalk(string uriString, string target, string group, string pathAttachment)
         {
             try
             {
@@ -103,11 +111,11 @@
 
                     foreach (var groupName in arrGroupName)
                     {
-                        letstalkNotify = new LetstalkNotify(uriString, target, groupName, directorySaveImage);
+                        letstalkNotify = new LetstalkNotify(uriString, target, groupName, pathAttachment);
 
                         if (!letstalkNotify.CheckExistFileAttach())
                         {
-                            LogService.Warn($"SendFileMessageViaLestalk to {groupName} does not exit file attach");
+                            LogService.Warn($"SendFileMessageViaLestalk to {groupName} does not exit file attach at path: {pathAttachment}");
                         }
 
                         isSendSuccess = letstalkNotify.SendSingleFileAttachMessage(subject, content);
@@ -127,7 +135,7 @@
                   .AddSection("Data Info", DatabaseInfoGetters.GetDbExceptionInfo(ex))
                   .AddSection("Exception Info", CommonInfoGetters.GetExceptionInfo(ex)).ToString();
 
-                LogService.Error($"TGRS - SendFileMessageViaLestalk failed target: {target} , group: {group} , file { directorySaveImage }, message: {logMessage}");
+                LogService.Error($"TGRS - SendFileMessageViaLestalk failed target: {target} , group: {group} , path { pathAttachment }, message: {logMessage}");
 
                 return false;
             }
@@ -135,8 +143,6 @@
 
         private void NotifyMessage()
         {
-            this.notifiedMessage = "Auto Trading via letstalk job run COMPLETED.";
-
             var telegramService = new NotificationService();
             telegramService
                .Config("0A40aOc7CtpzjbBSJu8KNWQRoXyjRvf9", "-1001400862084")
