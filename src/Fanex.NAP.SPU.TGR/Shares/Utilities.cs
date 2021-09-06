@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Fanex.NAP.SPU.TGR.Shares
+﻿namespace Fanex.NAP.SPU.TGR.Shares
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+
     public static class Utilities
     {
         public static IEnumerable<IEnumerable<T>> ChunkList<T>(this IEnumerable<T> list, int chunkSize)
@@ -17,6 +18,14 @@ namespace Fanex.NAP.SPU.TGR.Shares
             {
                 yield return list.Take(chunkSize);
                 list = list.Skip(chunkSize);
+            }
+        }
+
+        public static string ReadTextFile(string filePath)
+        {
+            using (var sr = new StreamReader(filePath))
+            {
+                return sr.ReadToEnd();
             }
         }
     }

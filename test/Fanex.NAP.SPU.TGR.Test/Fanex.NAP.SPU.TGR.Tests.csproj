@@ -22,10 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Fanex.NAP.SPU.TGR.JobService\Fanex.NAP.SPU.TGR.JobService.csproj" />
     <ProjectReference Include="..\..\src\Fanex.NAP.SPU.TGR\Fanex.NAP.SPU.TGR.csproj" />
   </ItemGroup>

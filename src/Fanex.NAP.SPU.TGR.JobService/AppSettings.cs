@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.ComponentModel;
-
-namespace Fanex.NAP.SPU.TGR.JobService
+﻿namespace Fanex.NAP.SPU.TGR.JobService
 {
+    using Microsoft.Extensions.Configuration;
+    using System;
+    using System.ComponentModel;
+
     public interface IAppSettings
     {
         int Environment { get; }
@@ -13,6 +13,18 @@ namespace Fanex.NAP.SPU.TGR.JobService
         int PunterChunkSize { get; }
 
         string SPName { get; }
+
+        string LetstalkServiceApi { get; }
+
+        string AutoTradingLetstalkTarget { get; }
+
+        string AutoTradingLetstalkGroups { get; }        
+
+        string AutoTradingFilePassword { get; }
+
+        string TGRSAPIBaseAddress { get; }
+
+        string SentryDsn { get;  }
     }
     public class AppSettings : IAppSettings
     {
@@ -24,6 +36,18 @@ namespace Fanex.NAP.SPU.TGR.JobService
 
         private readonly string spName;
 
+        private readonly string tgrsAPIBaseAddress;
+
+        private readonly string letstalkServiceApi;
+
+        private readonly string autoTradingLetstalkTarget;
+
+        private readonly string autoTradingLetstalkGroups;        
+
+        private readonly string autoTradingFilePassword;
+
+        private readonly string sentryDsn;
+
         public AppSettings(IConfiguration configuration)
         {
             this.configuration = configuration;
@@ -33,6 +57,18 @@ namespace Fanex.NAP.SPU.TGR.JobService
             punterChunkSize = GetValue<int>(nameof(PunterChunkSize));
 
             spName = GetValue<string>(nameof(SPName));
+
+            letstalkServiceApi = GetValue<string>(nameof(LetstalkServiceApi));
+
+            tgrsAPIBaseAddress = GetValue<string>(nameof(TGRSAPIBaseAddress));
+
+            autoTradingLetstalkTarget = GetValue<string>(nameof(AutoTradingLetstalkTarget));
+
+            autoTradingLetstalkGroups = GetValue<string>(nameof(AutoTradingLetstalkGroups));
+
+            autoTradingFilePassword = GetValue<string>(nameof(AutoTradingFilePassword));
+
+            sentryDsn = GetValue<string>("Sentry:Dsn");
         }
 
         public int Environment
@@ -63,6 +99,18 @@ namespace Fanex.NAP.SPU.TGR.JobService
 
         public int PunterChunkSize => punterChunkSize;
 
+        public string LetstalkServiceApi => letstalkServiceApi;
+
+        public string TGRSAPIBaseAddress => tgrsAPIBaseAddress;
+
+        public string AutoTradingLetstalkTarget => autoTradingLetstalkTarget;
+
+        public string AutoTradingLetstalkGroups => autoTradingLetstalkGroups;
+
+        public string AutoTradingFilePassword => autoTradingFilePassword;
+
+        public string SentryDsn => sentryDsn;
+
         public T GetValue<T>(string key)
         {
             try
@@ -85,5 +133,6 @@ namespace Fanex.NAP.SPU.TGR.JobService
 
             return schedulerSection.Get<T>();
         }
+
     }
 }
