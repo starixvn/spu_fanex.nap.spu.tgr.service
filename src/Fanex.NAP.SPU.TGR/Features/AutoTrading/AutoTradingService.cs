@@ -73,7 +73,7 @@
                         var fileName = Path.GetFileName(filePath);
                         if (!string.IsNullOrEmpty(fileName))
                         {
-                            File.Move(filePath, desArcFolder + fileName);
+                            File.Move(filePath, desArcFolder + fileName, true);
                         }
                     }
                 });
