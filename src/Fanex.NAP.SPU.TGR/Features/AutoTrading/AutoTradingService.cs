@@ -5,9 +5,10 @@
     using Fanex.Logging.Extensions.Database;
     using Fanex.NAP.SPU.TGR.Shares;
     using OfficeOpenXml;
+    using SixLabors.ImageSharp;
+    using SixLabors.ImageSharp.Formats;
     using System;
-    using System.Collections.Generic;
-    using System.Drawing;
+    using System.Collections.Generic;    
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -143,11 +144,12 @@
             if (bytes != null)
             {
                 var memoryStream = new MemoryStream(bytes);
-
-                var image = Image.FromStream(memoryStream, true, true);
+             
+                var image = Image.Load(memoryStream);
 
                 image.Save(savePath);
-            }           
+
+            }
         }
     }
 }
