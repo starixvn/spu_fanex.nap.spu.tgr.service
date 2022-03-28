@@ -78,17 +78,18 @@
                         }
                     }
                 });
+
             }
             catch (Exception ex)
             {
-                LogService.Warn($"TGRS - Auto Trading: MoveFileToArcFolder failed - { ex.ToString() }");
+                LogService.Warn($"TGRS - Auto Trading: MoveFileToArcFolder failed - { ex.Message }", ex);
             }
         }
 
         public void GenerateAutoTradingToFile(string endpoint, string saveFileName, FileType fileType)
         {
             this.IsSuccessAPIResponse = false;
-            var savePath = Path.Combine(this.DirectorySaveFile + saveFileName);            
+            var savePath = Path.Combine(this.DirectorySaveFile + saveFileName);
 
             try
             {
@@ -112,9 +113,13 @@
                                 SaveImage(bytes, savePath);
 
                             IsSuccessAPIResponse = true;
-                        }                       
+                        }
+                        else
+                        {
+                            LogService.Info($"GenerateAutoTradingToFile failed endpoint: {endpoint} { DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss") } statusCode: {response.StatusCode}");
+                        }
                     }
-                }
+                }                
             }
             catch (Exception ex)
             {
@@ -149,6 +154,7 @@
 
                 image.Save(savePath);
 
+                LogService.Info($"SaveImage sucessfully - { DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss") } bytes length {bytes.Length}");
             }
         }
     }

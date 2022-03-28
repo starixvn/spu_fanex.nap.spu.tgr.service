@@ -68,8 +68,8 @@
                 {
                     if (this.SendFileMessageViaLetstalk(
                         this.appSettings.LetstalkServiceApi,
-                        this.appSettings.AutoTradingLetstalkTarget, 
-                        this.appSettings.AutoTradingLetstalkGroups, 
+                        this.appSettings.AutoTradingLetstalkTarget,
+                        this.appSettings.AutoTradingLetstalkGroups,
                         directorySaveImage))
                     {
                         this.notifiedMessage = "Auto Trading via letstalk job run COMPLETED.";
@@ -102,6 +102,7 @@
             {
                 var isSendSuccess = true;
                 var sundayOfLastWeek = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek);
+
                 var subject = "Automation Trading Report";
                 var content = "Good day Sir, TA report update till " + sundayOfLastWeek.ToString("dd/MM/yyyy");
 
