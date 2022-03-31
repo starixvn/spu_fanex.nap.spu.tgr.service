@@ -5,9 +5,10 @@
     using Fanex.Logging.Extensions.Database;
     using Fanex.NAP.SPU.TGR.Shares;
     using OfficeOpenXml;
+    using SixLabors.ImageSharp;
+    using SixLabors.ImageSharp.Formats;
     using System;
-    using System.Collections.Generic;
-    using System.Drawing;
+    using System.Collections.Generic;    
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -77,17 +78,18 @@
                         }
                     }
                 });
+
             }
             catch (Exception ex)
             {
-                LogService.Warn($"TGRS - Auto Trading: MoveFileToArcFolder failed - { ex.ToString() }");
+                LogService.Warn($"TGRS - Auto Trading: MoveFileToArcFolder failed - { ex.Message }", ex);
             }
         }
 
         public void GenerateAutoTradingToFile(string endpoint, string saveFileName, FileType fileType)
         {
             this.IsSuccessAPIResponse = false;
-            var savePath = Path.Combine(this.DirectorySaveFile + saveFileName);            
+            var savePath = Path.Combine(this.DirectorySaveFile + saveFileName);
 
             try
             {
@@ -111,9 +113,13 @@
                                 SaveImage(bytes, savePath);
 
                             IsSuccessAPIResponse = true;
-                        }                       
+                        }
+                        else
+                        {
+                            LogService.Info($"GenerateAutoTradingToFile failed endpoint: {endpoint} { DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss") } statusCode: {response.StatusCode}");
+                        }
                     }
-                }
+                }                
             }
             catch (Exception ex)
             {
@@ -143,11 +149,13 @@
             if (bytes != null)
             {
                 var memoryStream = new MemoryStream(bytes);
-
-                var image = Image.FromStream(memoryStream, true, true);
+             
+                var image = Image.Load(memoryStream);
 
                 image.Save(savePath);
-            }           
+
+                LogService.Info($"SaveImage sucessfully - { DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss") } bytes length {bytes.Length}");
+            }
         }
     }
 }
